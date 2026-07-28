@@ -574,7 +574,7 @@ int main(int argc, char ** argv)
 	
 	// now we have to worry about not outputting \r for \r\n when checkopt(p)
 
-	if(!(ch == '\n' && last == '\r') && checkopt('p'))
+	if(!(ch == '\n' && last == '\r') && checkopt('p') && last != -1)
 		fputc(last, fout);
 	fprintf(fout, "\n");
 	
