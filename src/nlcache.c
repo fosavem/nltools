@@ -204,8 +204,6 @@ int main(int argc, char ** argv)
 	while(true)
 	{
 		prev = cur;
-		if((cur = fgetc(fin)) == EOF)
-			break;
 		
 		if(prev == '\n')
 		{
@@ -251,6 +249,9 @@ int main(int argc, char ** argv)
 				return 2;
 			}
 		}
+		
+		if((cur = fgetc(fin)) == EOF)
+			break;
 		
 		pos++;
 	}
