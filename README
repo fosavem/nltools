@@ -1,0 +1,51 @@
+nltools - Newline caching and quick seeking suite
+
+                                   RATIONALE
+
+nltools is a simple suite.  It contains the following tools.
+
+        nlcache     Builds a newline lookup table in nlcache file format
+
+        nlseek      Reads a nlcache file and locates the position in the actual
+                    file, with prefix matching capability, returning the
+                    contents of said line
+
+                                  APPLICATIONS
+
+nltools is useful when a text file needs to be queried by line number quickly
+without being a debugging headache.  nlcache produces the newline lookup table
+and nlseek merely finds the corresponding line, checking a prefix if it was
+given one and returning the rest of the line unprocessed.
+
+                                MORE INFORMATION
+
+In the `man` directory, there are groff files to be used with the man macro
+class.  Any working copy of the `man` utility should be able to read them,
+formatted.  If one does not have said `man` utility, the files are markup texts
+anyway, and should be able to be read with any standard text editor.  It is
+recommended that this text editor use a monospace font, since these texts are
+meant to be read with such formatting, this file included.
+
+                   +----------------------------------------+
+                   | nlcache >> man/nlcache.1  nlcache(1)   |
+                   | nlseek  >> man/nlseek.1   nlseek(1)    |
+                   +----------------------------------------+
+
+                                   COPYRIGHT
+
+nltools - Newline caching and quick seeking suite
+
+Copyright (C) 2026-  M. Chang
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, either version 3 of the License, or any later version.
+
+This program is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program.  If not, see <https://www.gnu.org/licenses/>.
+
+

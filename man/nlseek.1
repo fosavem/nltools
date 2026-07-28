@@ -1,0 +1,80 @@
+.TH  nlseek 1 "July 2026" "SAVEM Project / nltools" "Newline Seeker"
+
+.SH NAME
+nlseek \- newline seeker; reads a nlcache v1 file format newline table and follows it, outputting the corresponding line in the source file.
+
+.SH SYNOPSIS
+.nf
+nlseek OPTIONS SOURCE INPUT OUTPUT OFFSET [prefix]
+.fi
+
+OPTIONS
+
+`OPTIONS` should be a string of ASCII characters that should have their corresponding flag active.  Below is a comprehensive list of said options.
+
+.nf
+Verbosity
+q  - Quiet mode   suppress information
+Q  - QUIET mode   suppress warnings
+S  - SHUTUP mode  suppress errors
+Y  - Why mode     show debug messages
+Filing
+f  - Force overwrite if output file already exists.
+Output
+p  - Use text output instead of binary output.
+Miscellaneous
+v  - Show version then quit.
+h? - Show this help message then quit.
+.fi
+
+Any other options will be ignored.  Note that non-ASCII flags may set another flag that was not intended to be set.
+
+SOURCE
+
+Set `SOURCE` to the file whereof the `INPUT` nlcache file is meant to represent.
+
+INPUT
+
+Set `INPUT` to the file whereof nlseek shall use as the nlcache table, or `-` for stdin.
+
+OUTPUT
+
+Set `OUTPUT` to the file whereof nlseek shall use as the output, or `-` for stdout.
+
+OFFSET
+
+Set `OFFSET` to the line number thy seeks, starting from 1.
+
+[prefix]
+
+Optionally set `prefix` to the prefix that nlseek shall match with the line location.
+
+.SH DESCRIPTION
+
+nlseek reads version 1 nlcache files produced by nlcache, and uses said nlcache file to locate the correct line swiftly.
+
+.SH EXIT STATUS
+
+nlseek outputs the following error codes depending on their cause.
+
+.nf
+E#  Meaning
+ 0  nlseek succeeds in what it was asked to do
+ 1  nlseek failed because it does not know what the user wanted to do
+ 2  nlseek failed because it could not open the requested streams
+ 3  nlseek failed because the input nlcache file was malformed
+ 4  nlseek failed because table offset or prefix validation failed
+.fi
+
+.SH NOTES
+
+nlseek will reject any command that does not have exactly five or six parameters, even if help or version was requested.
+
+nlseek does not guarantee that it will not overwrite an preexisting file without force flag; nlseek only makes this event less likely by checking for existence first.
+
+nlseek will return the requested line, if successful.  If a prefix is given, then if nlseek is successful, nlseek will provide the characters after the prefix only.
+
+nlseek may be compiled with Limit2FIO32, which may make retrieval slower with the benefit of compatibility.  To see if this is the case, check the version string for "Limit2FIO32".  If it shows "FIO64" instead, then Limit2FIO32 was not enabled.
+
+.SH SEE ALSO
+.BR nlcache (1)

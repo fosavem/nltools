@@ -1,0 +1,61 @@
+.TH  nlcache 1 "July 2026" "SAVEM Project / nltools" "Newline Cacher"
+
+.SH NAME
+nlcache \- newline cacher; creates a table of newlines
+
+.SH SYNOPSIS
+.nf
+nlcache OPTIONS INPUT OUTPUT
+.fi
+
+OPTIONS
+
+`OPTIONS` should be a string of ASCII characters that should have their corresponding flag active.  Below is a comprehensive list of said options.
+
+.nf
+Verbosity
+q  - Quiet mode   suppress information
+Q  - QUIET mode   suppress warnings
+S  - SHUTUP mode  suppress errors
+Y  - Why mode     show debug messages
+Filing
+f  - Force overwrite if output file already exists
+Output
+b  - Use binary output instead of plaintext output
+Miscellaneous
+v  - Show version information then quit
+h? - Show a short help message then quit
+.fi
+
+Any other options will be ignored.  Note that non-ASCII flags may set another flag that was not intended to be set.
+
+INPUT
+
+Set `INPUT` to the input stream: either a literal filename or `-` for stdin.
+
+OUTPUT
+
+Set `OUTPUT` to the output stream: either a literal filename or `-` for stdout.
+
+.SH DESCRIPTION
+
+nlcache produces a version 1 nlcache file that can be read with nlseek.  Version 1 nlcache files can either be in binary mode or plaintext mode.  If a version 1 nlcache file is in binary mode, then it may include binary characters.  If a version 1 nlcache file is in plaintext mode, then it will only contain printable ASCII characters.
+
+Since the binary format can use more symbols than the ASCII character version, the binary format is approximately 50% smaller than the ASCII version, when measured in bytes.
+
+.SH EXIT STATUS
+
+If nlcache fails to generate a table, it will return 1 or 2 for usage error and stream errors respectively.  Otherwise, if everything goes well, nlcache will return 0.
+
+.SH NOTES
+
+Note that nlcache will reject any command that does not have exactly three parameters.  This means, to trigger the help message or the version message, one must include some parameters for `INPUT` and `OUTPUT`, though they are ignored.
+
+Note that nlcache does not gurantee that it will not overwrite a file if the `f` flag is not enabled.  There exists a small chance that between the `access()` call and the `fopen` call, a file may be created.  A file created in this manner will be overwritten.  nlcache does this `access()` check to make it less likely that one will use nlcache in a manner that is not desired.
+
+Note that the version 1 nlcache file format can store up to one bytes subtracted from 4 GiB for the binary version and up to 4 GiB for the text version.  No 4 GiB file or more can be stored, since version 1 nlcache files store a 32-bit unsigned interger for each newline.  Since 0xFFFFFFFF, the 32-bit unsigned integer limit, is used as the trailer for the binary format, the binary format cannot store 0xFFFFFFFF.  Forcing file past these limits will merely silently later entries, since they will only store the 32 lesser value bits of the correct value in later passes.  Though, if one is using nlcache on a 4 GiB file, one has bigger worries to worry about.
+
+nlcache does not support writing its output to the same file as its input.  Doing so will undoubtedly cause corruption.  But if one really does want to do it, nlcache is not guarding against this case fiercely.
+
+.SH SEE ALSO
+.BR nlseek (1)

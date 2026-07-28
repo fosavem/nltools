@@ -1,0 +1,26 @@
+nltools - Newline caching and quick seeking suite
+
+                                BUILDING nltools
+
+PREREQUISITES
+
+        Without porting, nltools should be buildable via
+
+        >  ISO C99 C compiler
+
+                >   With POSIX or WIN32 SDKs/APIs
+
+COMPILATION
+
+        After entering the src/ directory, compilation should be as simple as
+invoking the C99 compiler with whatever flags it needs to use the correct APIs
+on the standalone C files `nlcache.c` and `nlseek.c`.
+
+        For `nlseek.c`, the optional DEFINE `Limit2FIO32` may be passed to use
+standard ftell and fseek 32-bit behavior.
+
+TESTING
+
+        nltools does not currently provide a test suite.  It may do so later,
+but such a test suite is not currently available.  One may want to perform some
+sanity checks manually.
