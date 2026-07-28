@@ -323,15 +323,8 @@ int main(int argc, char ** argv)
 
 	uint32_t neededentry = neededentryul;
 
-#ifndef Limit2FIO32
 	if(strcmp(argv[3], "-") == 0)
 	{
-#else
-	if(strcmp(argv[3], "-") == 0 || ((uint64_t)(neededentry - 1) * 4 * (usingP ? 2 : 1)) > 2147483647)
-	{
-		if( ((uint64_t)(neededentry - 1) * 4 * (usingP ? 2 : 1)) > 2147483647  &&  !checkopt('Q')) 
-			fprintf(stderr, "Warning: Requested line number out of supported range for seek; falling back to manual traversal to target!\n");
-#endif
 		char buf[8] = {};
 		for(uint32_t counter = 1; counter < neededentry; counter++)
 		{
@@ -377,26 +370,23 @@ int main(int argc, char ** argv)
 	}
 	else
 	{
-#ifdef Limit2FIO32
 		uint64_t result = neededentry - 1;
 		result *= 4;
 
 		if(usingP)
 			result *= 2;
 
-		assert(result <= 2147483647);
-
-		// TODO: Theoretically, jump seeking is possible for > 2147483647, but not implemented here.
-
-		foff_t offset = result;
+		while(result > 0)
+		{
+#ifdef Limit2FIO32
+			foff_t offset = (result < 2147483647 ? result : 2147483647);
 #else
-		foff_t offset = (uint64_t)(neededentry - 1) * 4;
-
-		if(usingP)
-			offset *= 2;
+			foff_t offset = result;
 #endif
+			fseeko(fin, offset, SEEK_CUR); // if this ends up EOF, then will catch later
 
-		fseeko(fin, offset, SEEK_CUR); // if this ends up EOF, then will catch later
+			result -= offset;
+		}
 	}
 
 	uint32_t sourceoffset = 0;
