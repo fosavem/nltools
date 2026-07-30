@@ -31,6 +31,9 @@ meant to be read with such formatting, this file included.
                    | nlseek  >> man/nlseek.1   nlseek(1)    |
                    +----------------------------------------+
 
+Note that each manpage is available in both plaintext and GNU troff with man
+macros.  See the README in the man/ directory for more details.
+
                                    COPYRIGHT
 
 nltools - Newline caching and quick seeking suite
